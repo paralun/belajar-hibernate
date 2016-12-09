@@ -65,12 +65,12 @@ from Product where price >= 500 and price <= 1000
 
 **Aggregate Methods**
 
-*avg
-*count
-*max
-*min
-*sum
-*count(distinct…)
+* avg
+* count
+* max
+* min
+* sum
+* count(distinct…)
 
 ```
 Query query = session.createQuery("select max(gaji) from Karyawan");
@@ -85,10 +85,10 @@ System.out.println(number.intValue());
 
 **Join Query**
 
-*inner join
-*left outer join
-*right outer join
-*full join
+* inner join
+* left outer join
+* right outer join
+* full join
 
 ```
 String hql = "from Product p inner join p.category";

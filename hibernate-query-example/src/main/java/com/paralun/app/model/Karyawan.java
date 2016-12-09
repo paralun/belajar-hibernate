@@ -5,6 +5,7 @@
 package com.paralun.app.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,8 @@ public class Karyawan implements Serializable{
     private String alamat;
     @Column(name = "umur", nullable = true, length = 3)
     private int umur;
+    @Column(name = "gaji")
+    private BigDecimal gaji;
     @Temporal(TemporalType.DATE)
     @Column(name = "gabung")
     private Date gabung;
@@ -33,10 +36,11 @@ public class Karyawan implements Serializable{
     public Karyawan() {
     }
 
-    public Karyawan(String namaKaryawan, String alamat, int umur, Date gabung) {
+    public Karyawan(String namaKaryawan, String alamat, int umur, BigDecimal gaji, Date gabung) {
         this.namaKaryawan = namaKaryawan;
         this.alamat = alamat;
         this.umur = umur;
+        this.gaji = gaji;
         this.gabung = gabung;
     }
 
@@ -70,6 +74,14 @@ public class Karyawan implements Serializable{
 
     public void setUmur(int umur) {
         this.umur = umur;
+    }
+
+    public BigDecimal getGaji() {
+        return gaji;
+    }
+
+    public void setGaji(BigDecimal gaji) {
+        this.gaji = gaji;
     }
 
     public Date getGabung() {

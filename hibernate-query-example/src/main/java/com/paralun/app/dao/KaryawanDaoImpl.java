@@ -59,5 +59,30 @@ public class KaryawanDaoImpl implements KaryawanDao {
         session.close();
         return list;
     }
+
+    @Override
+    public List<Karyawan> getKaryawans(int first, int max) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Long getMaxGaji() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Long getMinGaji() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int getTotal() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Double getRataRata() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

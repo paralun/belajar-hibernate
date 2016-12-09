@@ -6,6 +6,7 @@ package com.paralun.app.util;
 
 import com.paralun.app.dao.KaryawanDao;
 import com.paralun.app.dao.KaryawanDaoImpl;
+import com.paralun.app.dao.KaryawanDaoQueryImpl;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,6 +16,7 @@ public class HibernateUtil {
     
     private static final SessionFactory sessionFactory = buildSessionFactory();
     private static KaryawanDao karyawanDao;
+    private static KaryawanDao karyawanDaoQuery;
 
     private static SessionFactory buildSessionFactory() {
         try {
@@ -38,5 +40,12 @@ public class HibernateUtil {
             karyawanDao = new KaryawanDaoImpl(sessionFactory);
         }
         return karyawanDao;
+    }
+
+    public static KaryawanDao getKaryawanDaoQuery() {
+        if(karyawanDaoQuery == null) {
+            karyawanDaoQuery = new KaryawanDaoQueryImpl(sessionFactory);
+        }
+        return karyawanDaoQuery;
     }
 }

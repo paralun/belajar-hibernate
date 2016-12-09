@@ -14,4 +14,9 @@ public interface KaryawanDao {
     public void delete(Karyawan karyawan);
     public Karyawan getKaryawan(long id);
     public List<Karyawan> getKaryawans();
+    public List<Karyawan> getKaryawans(int first, int max);
+    public Long getMaxGaji();
+    public Long getMinGaji();
+    public int getTotal();
+    public Double getRataRata();
 }

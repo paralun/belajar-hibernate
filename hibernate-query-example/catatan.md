@@ -146,3 +146,139 @@ Date endDate = dateFormatter.parse("2016-11-22");
 query.setParameter("endDate", endDate);
 List<Order> listOrders = query.list();
 ```
+
+### Hibernate Criteria
+
+**Criteria restrictions query**
+
+* Restrictions.eq -> equals `=`
+* Restrictions.lt -> less than `<`
+* Restrictions.le -> less than or equal `<=`
+* Restrictions.gt -> great than (>)
+* Restrictions.ge -> great than or equal `>=`
+* Restrictions.like
+* Restrictions.between
+* Restrictions.isNull
+* Restrictions.isNotNull
+
+```
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+    .add(Restrictions.eq("volume", 10000));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.lt("volume", 10000));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.le("volume", 10000));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.gt("volume", 10000));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.ge("volume", 10000));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.like("stockName", "MKYONG%"));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.between("date", startDate, endDate));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.isNull("volume"));
+
+Criteria criteria = session.createCriteria(StockDailyRecord.class)
+   .add(Restrictions.isNotNull("volume"));
+
+Crietria c = session.createCriteria(Emp.class);  
+c.addOrder(Order.asc("salary"));  
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "Fritz%") )
+    .add( Restrictions.between("weight", minWeight, maxWeight) )
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "Fritz%") )
+    .add( Restrictions.or(
+        Restrictions.eq( "age", new Integer(0) ),
+        Restrictions.isNull("age")
+    ) )
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.in( "name", new String[] { "Fritz", "Izi", "Pk" } ) )
+    .add( Restrictions.disjunction()
+        .add( Restrictions.isNull("age") )
+        .add( Restrictions.eq("age", new Integer(0) ) )
+        .add( Restrictions.eq("age", new Integer(1) ) )
+        .add( Restrictions.eq("age", new Integer(2) ) )
+    ) )
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.sqlRestriction("lower({alias}.name) like lower(?)", "Fritz%", Hibernate.STRING) )
+    .list();
+
+Property age = Property.forName("age");
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.disjunction()
+        .add( age.isNull() )
+        .add( age.eq( new Integer(0) ) )
+        .add( age.eq( new Integer(1) ) )
+        .add( age.eq( new Integer(2) ) )
+    ) )
+    .add( Property.forName("name").in( new String[] { "Fritz", "Izi", "Pk" } ) )
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "F%")
+    .addOrder( Order.asc("name") )
+    .addOrder( Order.desc("age") )
+    .setMaxResults(50)
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Property.forName("name").like("F%") )
+    .addOrder( Property.forName("name").asc() )
+    .addOrder( Property.forName("age").desc() )
+    .setMaxResults(50)
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "F%") )
+    .createCriteria("kittens")
+        .add( Restrictions.like("name", "F%") )
+    .list();
+
+List cats = sess.createCriteria(Cat.class)
+    .createAlias("kittens", "kt")
+    .createAlias("mate", "mt")
+    .add( Restrictions.eqProperty("kt.name", "mt.name") )
+    .list();
+
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.projectionList()
+        .add( Projections.rowCount() )
+        .add( Projections.avg("weight") )
+        .add( Projections.max("weight") )
+        .add( Projections.groupProperty("color") )
+    )
+    .list();
+	
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.alias( Projections.groupProperty("color"), "colr" ) )
+    .addOrder( Order.asc("colr") )
+    .list();
+
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.projectionList()
+        .add( Projections.rowCount(), "catCountByColor" )
+        .add( Projections.avg("weight"), "avgWeight" )
+        .add( Projections.max("weight"), "maxWeight" )
+        .add( Projections.groupProperty("color"), "color" )
+    )
+    .addOrder( Order.desc("catCountByColor") )
+    .addOrder( Order.desc("avgWeight") )
+    .list();
+```
+
